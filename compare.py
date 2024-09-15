@@ -8,7 +8,6 @@ def symbol_to_path(symbol, base_dir="data"):
     """Return CSV file path given ticker symbol."""
     return os.path.join(base_dir, "{}.csv".format(str(symbol)))
 
-
 def get_data(symbols, dates):
     """Read stock data (adjusted close) for given symbols from CSV files."""
     df = pd.DataFrame(index=dates)
@@ -25,7 +24,6 @@ def get_data(symbols, dates):
 
     return df
 
-
 def plot_data(df, title="Stock prices", xlabel="Date", ylabel="Price"):
     """Plot stock prices with a custom title and meaningful axis labels."""
     ax = df.plot(title=title, fontsize=12)
@@ -33,24 +31,22 @@ def plot_data(df, title="Stock prices", xlabel="Date", ylabel="Price"):
     ax.set_ylabel(ylabel)
     plt.show()
 
-
 def compute_daily_returns(df):
     """Compute and return the daily return values."""
-    # TODO: Your code here
-    # Note: Returned DataFrame must have the same number of rows
-
+    daily_returns = df.pct_change()  # Calculate percentage change
+    daily_returns.iloc[0] = 0  # Set the first value to zero
+    return daily_returns  # Return the DataFrame of daily returns
 
 def test_run():
     # Read data
     dates = pd.date_range('2012-07-01', '2012-07-31')  # one month only
-    symbols = ['SPY','XOM']
+    symbols = ['SPY', 'XOM']
     df = get_data(symbols, dates)
     plot_data(df)
 
     # Compute daily returns
     daily_returns = compute_daily_returns(df)
-    plot_data(daily_returns, title="Daily returns", ylabel="Daily returns")
-
+    plot_data(daily_returns, title="Daily Returns", ylabel="Daily Returns")
 
 if __name__ == "__main__":
     test_run()
